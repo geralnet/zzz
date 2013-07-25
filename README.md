@@ -1,9 +1,17 @@
 zZz
 ===
 
+Geral.NET zZz Home Automation
+
+PLEASE NOTE:
+You are free to help us and we are glad you do;
+however, you abdcate any intellectual property or ownership of
+any material you submit to us. We will gladly take it as a non-strings attached donation.
+
+
 *** This project is at version 0.0, so yeah, just started! ***
 
-Geral.NET zZz Home Automation
+
 
 - HARDWARE
 All schematics and DYO (easy to homebrew) board layouts are provided.
