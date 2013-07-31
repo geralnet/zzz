@@ -2,7 +2,6 @@
 // variable types. Ex: selects fits in a byte in the code.
 #define INPUTS    64 // number of inputs to read
 #define SELECTS    6  // number of select pins
-#define BYTES      8  // number of bytes to store inputs
 
 const int pinSelect[] = { 
   8, 9, 11, 5 ,6, 7
@@ -60,20 +59,4 @@ void loop() {
     Serial.println();
   } 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

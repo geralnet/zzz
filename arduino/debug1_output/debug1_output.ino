@@ -56,7 +56,7 @@ void blinkAll() {
 
 void oneByOne() {
   last++;
-  if (last >= 32) last = 0;
+  if (last >= 64) last = 0;
   Serial.print("One by One: ");
   Serial.print(last);
   unsigned int a = 1 << last;
@@ -77,7 +77,7 @@ void oneByOne() {
   shiftOut(pinData, pinClock, MSBFIRST, b);  
   shiftOut(pinData, pinClock, MSBFIRST, a);  
   digitalWrite(pinLatch, HIGH);
-  delay(500);
+  delay(50);
 }
 
 
