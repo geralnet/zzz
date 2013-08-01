@@ -1,23 +1,82 @@
+// ---- BEGINNING OF [IOMessage.java] OUTPUT ---- //
+#define MAX_MESSAGE_SIZE 32
+
+// Client Output (9): B1-8=Current time in millis
+// Client Input (9): B1-8=Echo same bytes back
+#define MSG_PING 0
+#define COB_PING 9
+#define CIB_PING 9
+
+// Client Output (0): [nothing]
+// Client Input (2): B1=Number of Inputs ; B2=Number of Outputs
+#define MSG_IO_COUNT 1
+#define COB_IO_COUNT 0
+#define CIB_IO_COUNT 2
+
+// Client Output (1): B1=Output # to set ON
+// Client Input (1): B1=Same byte back
+#define MSG_TURNON_ONE 2
+#define COB_TURNON_ONE 1
+#define CIB_TURNON_ONE 1
+
+// Client Output (1): B1=Output # to set OFF
+// Client Input (1): B1=Same byte back
+#define MSG_TURNOFF_ONE 3
+#define COB_TURNOFF_ONE 1
+#define CIB_TURNOFF_ONE 1
+
+// Client Output (32): B1-32=Output bits, 1(turn on) 0(do not change)
+// Client Input (32): B1-32 Same bytes back
+#define MSG_TURNON_MANY 4
+#define COB_TURNON_MANY 32
+#define CIB_TURNON_MANY 32
+
+// Client Output (32): B1-32=Output bits, 1(turn off) 0(do not change)
+// Client Input (32): B1-32 Same bytes back
+#define MSG_TURNOFF_MANY 5
+#define COB_TURNOFF_MANY 32
+#define CIB_TURNOFF_MANY 32
+
+// Client Output (32): B1-32=Output bits, 1(turn on) 0(turn off)
+// Client Input (32): B1-32 Same bytes back
+#define MSG_TURNONOFF_ALL 6
+#define COB_TURNONOFF_ALL 32
+#define CIB_TURNONOFF_ALL 32
+
+// Client Output (1): B1=Output # to check
+// Client Input (2): B1=Output # checked, B2=0(off) 1(on)
+#define MSG_CHECK_OUTPUT 7
+#define COB_CHECK_OUTPUT 1
+#define CIB_CHECK_OUTPUT 2
+
+// Client Output (0): [nothing]
+// Client Input (32): B1-32=Output bits, 0(off) 1(on)
+#define MSG_CHECK_OUTPUTS 8
+#define COB_CHECK_OUTPUTS 0
+#define CIB_CHECK_OUTPUTS 32
+
+// Client Output (1): B1=Input # to check
+// Client Input (2): B1=Input # checked, B2=0(off) 1(on)
+#define MSG_CHECK_INPUT 9
+#define COB_CHECK_INPUT 1
+#define CIB_CHECK_INPUT 2
+
+// Client Output (0): [nothing]
+// Client Input (32): B1-32=Input bits, 0(off) 1(on)
+#define MSG_CHECK_INPUTS 10
+#define COB_CHECK_INPUTS 0
+#define CIB_CHECK_INPUTS 32
+
+
+
+// ---- END OF [IOMessage.java] OUTPUT ---- //
+
 #include <SPI.h>
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 
-// dump debugging info to serial?
-// #define SERIAL_DEBUG
-
-// use IOMessage.java to generate code below
-#define MAX_MESSAGE_SIZE 9
-#define MSG_PING 0 // Ping (pong) with 8 bytes
-#define MSGSIZE_PING 9
-#define MSG_IO_COUNT 1 // Get (send) number of inputs and outputs
-#define MSGSIZE_IO_COUNT 3
-#define MSG_SET_OUTPUT_ON 2 // Set (confirm) the status of output X to ON
-#define MSGSIZE_SET_OUTPUT_ON 2
-#define MSG_SET_OUTPUT_OFF 3 // Set (confirm) the status of output X to OFF
-#define MSGSIZE_SET_OUTPUT_OFF 2
-#define MSG_SWITCH_OUTPUT 4 // Switch (confirm) the status of output X
-#define MSGSIZE_SWITCH_OUTPUT 2
-
+// enable below to dump debugging info to serial?
+#define SERIAL_DEBUG
 
 // MAC address found on the back of your ethernet arduino/shield
 byte mac[] = {  
@@ -171,21 +230,30 @@ void udpReceived() {
   // check message type
   switch (udpBuffer[0]) {
   case MSG_PING:
-    udpResponse(MSGSIZE_PING);
+    udpResponse(COB_PING);
     return;
   case MSG_IO_COUNT:
     udpBuffer[1] = numberOfInputs;
     udpBuffer[2] = numberOfOutputs;
     udpResponse(3);
     return;
-  case MSG_SET_OUTPUT_ON:
+  case MSG_TURNON_ONE:
     setOutputOn(udpBuffer[1]);
     udpResponse(2);
     return;
-  case MSG_SET_OUTPUT_OFF:
+  case MSG_TURNOFF_ONE:
     setOutputOff(udpBuffer[1]);
     udpResponse(2);
     return;
+    /*
+    	TURNON_MANY(0x04, 32, 32, "B1-32=Output bits, 1(turn on) 0(do not change)", "B1-32 Same bytes back"),
+	TURNOFF_MANY(0x05, 32, 32, "B1-32=Output bits, 1(turn off) 0(do not change)", "B1-32 Same bytes back"),
+	TURNONOFF_ALL(0x06, 32, 32, "B1-32=Output bits, 1(turn on) 0(turn off)", "B1-32 Same bytes back"),
+	CHECK_OUTPUT(0x07, 1, 2, "B1=Output # to check", "B1=Output # checked, B2=0(off) 1(on)"),
+	CHECK_OUTPUTS(0x08, 0, 32, "[nothing]", "B1-32=Output bits, 0(off) 1(on)"),
+	CHECK_INPUT(0x09, 1, 2, "B1=Input # to check", "B1=Input # checked, B2=0(off) 1(on)"),
+	CHECK_INPUTS(0x0A, 0, 32, "[nothing]", "B1-32=Input bits, 0(off) 1(on)");
+    */
   }
   debugln("msgerr");
 }

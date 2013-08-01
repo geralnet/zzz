@@ -15,12 +15,12 @@ class UDPClient {
 		byte[] receiveData = new byte[1024];
 		// byte[] sendData = IOMessage.IO_COUNT.with();
 		for (int i = 0; i < 10; i++) {
-			byte[] sendData = IOMessage.SET_OUTPUT_ON.with((byte) i);
+			byte[] sendData = IOMessage.TURNON_ONE.with((byte) i);
 			DatagramPacket sendPacket = new DatagramPacket(sendData,
 					sendData.length, IPAddress, 0x7A5A);
 			clientSocket.send(sendPacket);
 		}
-		byte[] sendData = IOMessage.SET_OUTPUT_OFF.with((byte) 0);
+		byte[] sendData = IOMessage.TURNOFF_ONE.with((byte) 0);
 		DatagramPacket sendPacket = new DatagramPacket(sendData,
 				sendData.length, IPAddress, 0x7A5A);
 		clientSocket.send(sendPacket);
