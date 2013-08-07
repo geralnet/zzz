@@ -4,12 +4,11 @@
 #define SELECTS    6  // number of select pins
 
 const int pinSelect[] = { 
-  8, 9, 11, 5 ,6, 7
-    // INVERTED AxC
-  // INVERTED DxF
+17 ,16, 15,  2, 3, 5,
+  //inverted: 5x2  17x15
 };
 const int pinInputRead = 14;
-const int pinConfig = 12;
+const int pinConfig = 6;
 byte values[INPUTS];
 
 void readAll() {

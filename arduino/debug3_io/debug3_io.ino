@@ -3,15 +3,15 @@
 #define SELECTS    6 // number of input-select pins
 
 const int pinInSelect[] = { 
-  8, 9, 11, 5 ,6, 7
+  17, 16, 15, 2 ,3, 5
     // INVERTED AxC
   // INVERTED DxF
 };
 const int pinInputRead = 14;
-const int pinOutLatch = 3;
-const int pinOutClock = 2;
-const int pinOutData = 4;
-const int pinConfig = 12;
+const int pinOutLatch = 8;
+const int pinOutClock = 9;
+const int pinOutData = 7;
+const int pinConfig = 6;
 byte values[IOS];
 boolean changed = false;
 

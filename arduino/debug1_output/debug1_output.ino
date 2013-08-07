@@ -6,10 +6,10 @@ If configuration pin is set (LOW), will blink all at once.
  http://arduino.cc/en/Tutorial/ShftOut11
  */
 
-const int pinLatch = 3;
-const int pinClock = 2;
-const int pinData = 4;
-const int pinConfig = 12;
+const int pinLatch = 8;
+const int pinClock = 9;
+const int pinData = 7;
+const int pinConfig = 6;
 
 void setup() {
   Serial.begin(9600);
