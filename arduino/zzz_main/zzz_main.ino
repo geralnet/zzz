@@ -218,7 +218,6 @@ const IPAddress netIP(192, 168, 1, 50);
 const IPAddress netDNS(192, 168, 1, 1);
 const IPAddress netGateway(192, 168, 1, 1);
 const IPAddress netMask(255, 255, 255, 0);
-const IPAddress netBroadcast(netIP[0] | ~netMask[0], netIP[1] | ~netMask[1], netIP[2] | ~netMask[2], netIP[3] | ~netMask[3]);
 
 // Hardware pins mapping:
 const byte pinInputSelect[] = { 
@@ -280,6 +279,9 @@ boolean outputs[numberOfOutputs];
 // If anything changes the outputs, set this boolean to true. Once the outputs
 // are properly set, this variable will be set back to false.
 boolean changedOutput;
+
+// which address to send broadcasts?
+IPAddress netBroadcast;
 
 
 
@@ -368,19 +370,22 @@ void setup() {
   changedOutput = true; //.. make sure it will be commited when the loop starts.
 
   // Initialize network (STATIC mode, comment out DHCP mode)
-  debugln("Initialize static-mode network...");
-  Ethernet.begin((byte*)mac, netIP, netDNS, netGateway, netMask);
+  // debugln("Initialize static-mode network...");
+  // Ethernet.begin((byte*)mac, netIP, netDNS, netGateway, netMask);
 
   // Initialize network (DHCP mode, comment out STATIC mode)
-  /*
   debugln("Initialize dhcp-mode network...");
-   debugln("Get IP");
-   while (Ethernet.begin(mac) == 0) {
-   debugln("fail");
-   delay(1000);
-   debugln("Get IP");
-   }
-   */
+  debugln("Get IP");
+  while (Ethernet.begin((byte*)mac) == 0) {
+    debugln("fail");
+    delay(1000);
+    debugln("Get IP");
+  }
+  
+  // Calculate broadcast address
+  for (byte b=0; b<4; b++) {
+    netBroadcast[b] = Ethernet.localIP()[b] | ~Ethernet.subnetMask()[b];
+  }
 
   debugln("Starting to listen for UDP packets...");
   Udp.begin(udpPort);  
@@ -774,6 +779,7 @@ void copyBooleansToBits(int numberOfBooleans, boolean* booleans, byte* bits) {
     if (booleans[i]) *tByte |= 1; //set new bit if needed
   }
 }
+
 
 
 

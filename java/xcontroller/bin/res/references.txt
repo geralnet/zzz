@@ -3,3 +3,4 @@ TODO
 
 URLs:
 http://commons.wikimedia.org/wiki/File:Crystal_Clear_app_cache.png
+http://commons.wikimedia.org/wiki/File:Crystal_Clear_action_exit.png
