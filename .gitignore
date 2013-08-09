@@ -1,2 +1,4 @@
 #ignore binaries
 *.class
+*.b#*
+*.s#*
